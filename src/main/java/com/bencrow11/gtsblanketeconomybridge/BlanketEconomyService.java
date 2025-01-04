@@ -23,22 +23,4 @@ public class BlanketEconomyService implements GtsEconomy {
     public boolean remove(UUID uuid, double amount) {
         return api.subtractBalance(uuid, new BigDecimal(amount), GtsBlanketEconomyBridge.config.getCurrencyName());
     }
-
-    @Override
-    public boolean transfer(UUID sender, UUID receiver, double amount) {
-
-        boolean removedMoney = remove(sender, amount);
-        boolean addedMoney = add(receiver, amount);
-
-        if (!removedMoney && addedMoney) {
-            remove(receiver, amount);
-        }
-
-        if (removedMoney && !addedMoney) {
-            add(sender, amount);
-        }
-
-
-        return removedMoney && addedMoney;
-    }
 }
